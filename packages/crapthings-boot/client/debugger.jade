@@ -1,0 +1,31 @@
+//- debug nav
+
+template(name='__nav__debugger')
+
+  nav.nav-debug
+
+    +each routersOptions
+
+        a(href='{{pathFor route=name}}' class='{{isActiveRoute name=name}}')= name
+
+    if currentUser
+    
+      a(href='#' onclick='Meteor._logout();').pull-right logout
+
+      a(href='#').pull-right {{currentUser.username}}
+    
+    a(href='{{pathFor route="__debugger"}}' class='{{isActiveRoute name="__debugger"}}').pull-right.link-debug debug mode
+
+//- debug page
+
+template(name='__debugger')
+
+  .ui-padded
+
+    h1 collections
+    
+    ul
+      +each routersOptions
+        if isCollection
+          li
+            a= name

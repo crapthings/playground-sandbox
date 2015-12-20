@@ -1,0 +1,23 @@
+$debugNavHeight = 50px
+
+.ui-padded
+  padding 30px
+
+.pull-right
+  float right
+
+.nav-debug
+  padding 0 10px
+  height $debugNavHeight
+  background-color #efefef
+  & > a
+    display inline-block
+    padding 0 10px
+    line-height $debugNavHeight
+    color #666
+    text-decoration none
+    &.active
+      color green !important
+
+.link-debug
+  color red !important

@@ -1,0 +1,12 @@
+//-  a blank layout
+template(name='__blank')
+
+  +yield
+
+//- login page
+template(name='__login')
+
+  form
+    input(type='text' name='username' placeholder='username' value='debug' required autofocus)
+    input(type='password' name='password' placeholder='password' value='debug' required)
+    input(type='submit' value='login')
