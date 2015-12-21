@@ -32,6 +32,21 @@ _ = lodash
       { name, isCollection } = collection
       @collections[name] = new Mongo.Collection name if isCollection
 
+      methods = {}
+
+      if isCollection
+
+        methods["#{name}/insert"] = (opt) =>
+          @collections[name].insert opt
+
+        methods["#{name}/update"] = (id, opt) =>
+          @collections[name].update id, $set: opt
+
+        methods["#{name}/remove"] = (id) =>
+          @collections[name].remove id
+
+        Meteor.methods methods
+
   #
   setRoutes: ->
     do @setLoginRoute
@@ -72,8 +87,6 @@ _ = lodash
     if @useDebugger and Meteor.isClient
       Meteor.startup ->
         Blaze.render Template['__nav__debugger'], document.body
-
-    do @setDummies if @useDebugger and @useFixtures
 
   #
   setDebugUser: ->

@@ -20,6 +20,7 @@ Package.onUse(function(api) {
     'stevezhu:lodash',
 
     'aldeed:collection2@2.7.0',
+    'aldeed:autoform@5.8.1',
 
     'iron:router',
     'mquandalle:jade',
