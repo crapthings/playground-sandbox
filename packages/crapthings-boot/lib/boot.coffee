@@ -8,6 +8,7 @@ _ = lodash
   constructor: (@config = {}) ->
 
     {
+      @defaultLayout
       @collectionOptions
       @loginOptions
       @useDebugger
@@ -29,8 +30,12 @@ _ = lodash
   #
   setCollections: ->
     _.each @collectionOptions, (collection) =>
-      { name, isCollection } = collection
+      { name, isCollection, schema } = collection
+
       @collections[name] = new Mongo.Collection name if isCollection
+
+      if isCollection and _.isObject schema
+        @collections[name].attachSchema schema
 
       methods = {}
 
@@ -49,17 +54,46 @@ _ = lodash
 
   #
   setRoutes: ->
+
+    Router.configure
+      layoutTemplate: @defaultLayout or '__blank'
+
     do @setLoginRoute
+
     _.each @collectionOptions, (collection) =>
-      { name, path, isCollection } = collection
+      { name, path, label, title, isCollection } = collection
+
       routerData = {}
       routerData[name] = @collections[name].find {} if isCollection
+
       if Meteor.isClient
+
+        _newTemplate = _.camelCase "new #{name}"
+        _updateTemplate = _.camelCase "update #{name}"
+
+        #
+
         Router.route path, ->
           @render name,
             data: -> routerData
         ,
           name: name
+          data: ->
+            title: title or label
+
+        #
+
+        Router.route path + '/new', ->
+          @render _newTemplate
+        ,
+          name: _newTemplate
+
+        #
+
+        Router.route path + '/update/:_id', ->
+          @render _updateTemplate
+        ,
+          name: _updateTemplate
 
   #
   setLoginRoute: ->
@@ -81,6 +115,8 @@ _ = lodash
   setTemplateHelpers: ->
     if Meteor.isClient
       Template.registerHelper 'routersOptions', => @collectionOptions
+
+      Template.registerHelper 'routeOptions', => @collectionOptions
 
   #
   setDebugger: ->

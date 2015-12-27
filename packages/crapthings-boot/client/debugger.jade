@@ -6,7 +6,7 @@ template(name='__nav__debugger')
 
     +each routersOptions
 
-        a(href='{{pathFor route=name}}' class='{{isActiveRoute name=name}}')= name
+        a(href='{{pathFor route=name}}' class='{{isActiveRoute name=name}}')= label
 
     if currentUser
 
@@ -28,5 +28,5 @@ template(name='__debugger')
       +each routersOptions
         if isCollection
           li
-            a= name
+            a {{name}}
             div {{test schema}}

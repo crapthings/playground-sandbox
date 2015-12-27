@@ -1,0 +1,11 @@
+template(name='breadcrumb')
+
+	ol.breadcrumb
+
+		li
+			a(href='{{pathFor route="home"}}') 主页
+
+		each paths
+
+			li
+				a(href='{{pathFor route=name}}') {{label}}

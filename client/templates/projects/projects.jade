@@ -1,0 +1,31 @@
+template(name='projects')
+
+	a(href='{{pathFor route="newProjects"}}') 新项目
+
+	+bstable
+
+		thead
+			tr
+				th 名称
+				th 类型
+				th 操作
+
+		tbody
+
+			each projects
+
+				tr
+					td= title
+					td= type
+					td
+						.btn-group.btn-group-xs
+							a(href='{{pathFor route="updateProjects"}}').btn.btn-primary 编辑
+							+bsRemoveBtn method='projects/remove' id=_id
+
+template(name='newProjects')
+
+	+quickForm collection="app.collections.projects" id="newProjectsForm" type="insert" buttonContent='提交'
+
+template(name='updateProjects')
+
+	+quickForm collection="app.collections.projects" id="updateProjectsForm" type="update"

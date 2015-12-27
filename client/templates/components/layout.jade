@@ -1,0 +1,33 @@
+template(name='layout_default')
+
+	.container
+
+		.row
+
+			.col-xs-2
+
+				+nav_side
+
+			.col-xs-10
+
+				.row
+					.col-xs-12
+						h2 {{title}}
+
+				.row
+					.col-xs-12
+						+breadcrumb
+
+				+yield
+
+template(name='nav_side')
+
+	ul.nav.nav-pills.nav-stacked
+
+		each routeOptions
+
+			unless hide
+
+				li(class='{{isActiveRoute name=name}}')
+
+					a(href='{{pathFor route=name}}') {{label}}
